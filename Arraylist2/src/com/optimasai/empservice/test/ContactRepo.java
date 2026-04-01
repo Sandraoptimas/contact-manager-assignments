@@ -189,17 +189,26 @@ public class ContactRepo {
     }
     public void countByCity() {
 
-        for (int i = 0; i < contacts.size(); i++) 
-        {
+        for (int i = 0; i < contacts.size(); i++) {
 
             String city = contacts.get(i).getCity();
+
+           
+            int k;
+            for (k = 0; k < i; k++) {
+                if (contacts.get(k).getCity().equalsIgnoreCase(city)) {
+                    break;
+                }
+            }
+
+            if (k < i) {
+                continue;
+            }
+
             int count = 0;
 
-            for (int j = 0; j < contacts.size(); j++)
-            {
-
-                if (contacts.get(j).getCity().equalsIgnoreCase(city))
-                {
+            for (int j = 0; j < contacts.size(); j++) {
+                if (contacts.get(j).getCity().equalsIgnoreCase(city)) {
                     count++;
                 }
             }
