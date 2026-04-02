@@ -187,33 +187,25 @@ public class ContactRepo {
             }
         }
     }
-    public void countByCity() {
+public void countByCity() {
+
+        HashMap<String, Integer> map = new HashMap<>();
 
         for (int i = 0; i < contacts.size(); i++) {
 
-            String city = contacts.get(i).getCity();
+        	String city = contacts.get(i).getCity().toLowerCase();
 
-           
-            int k;
-            for (k = 0; k < i; k++) {
-                if (contacts.get(k).getCity().equalsIgnoreCase(city)) {
-                    break;
-                }
+            if (map.containsKey(city))
+            {
+                map.put(city, map.get(city) + 1);
+            } else 
+            {
+                map.put(city, 1);
             }
+        }
 
-            if (k < i) {
-                continue;
-            }
-
-            int count = 0;
-
-            for (int j = 0; j < contacts.size(); j++) {
-                if (contacts.get(j).getCity().equalsIgnoreCase(city)) {
-                    count++;
-                }
-            }
-
-            System.out.println(city + " : " + count);
+        for (String city : map.keySet()) {
+            System.out.println(city + " : " + map.get(city));
         }
     }
 }
