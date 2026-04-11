@@ -26,37 +26,36 @@ public class ContactController {
     }
 
     @GetMapping("/city/{city}")
-    public List<Contact> getByCity(@PathVariable String city) {
+    public List<Contact> getByCity(@PathVariable String city) 
+    {
         return contactService.getByCity(city);
     }
 
     @GetMapping("/count/{city}")
-    public long countByCity(@PathVariable String city) {
+    public long countByCity(@PathVariable String city)
+    {
         return contactService.countByCity(city);
     }
 
+    
     @PutMapping("/update/{id}")
-    public Object updateContact(@PathVariable int id, @RequestBody Contact contact) {
+    public Contact updateContact(@PathVariable int id, @RequestBody Contact contact) {
 
         Contact existing = contactService.getById(id);
 
-        if (existing != null) {
-            existing.setFirstName(contact.getFirstName());
-            existing.setLastName(contact.getLastName());
-            existing.setEmail(contact.getEmail());
-            existing.setMobile(contact.getMobile());
-            existing.setCity(contact.getCity());
-            existing.setPincode(contact.getPincode());
+        existing.setFirstName(contact.getFirstName());
+        existing.setLastName(contact.getLastName());
+        existing.setEmail(contact.getEmail());
+        existing.setMobile(contact.getMobile());
+        existing.setCity(contact.getCity());
+        existing.setPincode(contact.getPincode());
 
-            return contactService.saveContact(existing);
-        } else
-        {
-            return "No contact found with ID: " + id;
-        }
+        return contactService.saveContact(existing);
     }
 
     @DeleteMapping("/delete/{id}")
-    public String deleteContact(@PathVariable int id) {
+    public String deleteContact(@PathVariable int id) 
+    {
         return contactService.deleteContact(id);
     }
 }

@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.optimasai.contactappnew.exception.ResourceNotFoundException;
 import com.optimasai.contactappnew.model.Contact;
 import com.optimasai.contactappnew.repository.ContactRepository;
 
@@ -23,7 +24,14 @@ public class ContactService {
     }
 
     public List<Contact> getByCity(String city) {
-        return repo.findByCity(city);
+
+        List<Contact> list = repo.findByCity(city);
+
+        if (list.isEmpty()) {
+            throw new ResourceNotFoundException("No contacts found in city: " + city);
+        }
+
+        return list;
     }
 
     public long countByCity(String city) {
@@ -31,11 +39,15 @@ public class ContactService {
     }
 
     public Contact getById(int id) {
-        return repo.findById(id).orElse(null);
+    	return repo.findById(id)
+    	        .orElseThrow(() -> new ResourceNotFoundException("Contact not found with ID: " + id));
     }
 
     public String deleteContact(int id) {
-        repo.deleteById(id);
+
+        Contact contact = getById(id); 
+        repo.delete(contact);
+
         return "Deleted successfully";
     }
 }
